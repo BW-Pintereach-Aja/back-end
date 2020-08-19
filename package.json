@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "cross-env NODE_ENV=production node -r dotenv/config index.js",
+    "server": "cross-env NODE_ENV=development nodemon -r dotenv/config index.js",
     "test": "cross-env NODE_ENV=testing jest --setupFiles dotenv/config",
     "test:watch": "cross-env NODE_ENV=testing jest --watch --setupFiles dotenv/config"
   },
