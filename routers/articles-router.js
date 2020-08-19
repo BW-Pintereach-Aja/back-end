@@ -1,6 +1,15 @@
 const router = require('express').Router()
 const Articles = require('../models/articles-model')
 
+router.get('/categories', async (req, res, next) => {
+	try {
+		res.status(200).json(await Articles.getCategories())
+		// res.status(200).json({ message: 'HELLO' })
+	} catch (error) {
+		next(error)
+	}
+})
+
 router.get('/', async (req, res, next) => {
 	try {
 		res.status(200).json(await Articles.getArticles())

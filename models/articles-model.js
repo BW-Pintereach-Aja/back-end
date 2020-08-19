@@ -57,6 +57,10 @@ function getByCategory(id) {
 		.select('articles.id', 'articles.title', 'articles.desc', 'articles.url')
 }
 
+function getCategories() {
+	return db('categories').select('categories.id', 'categories.name', 'categories.desc')
+}
+
 function addArticle(post) {
 	return db('articles').insert(post)
 }
@@ -70,6 +74,7 @@ module.exports = {
 	getArticleById,
 	getByUser,
 	getByCategory,
+	getCategories,
 	addArticle,
 	addToCategory
 }
