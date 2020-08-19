@@ -66,6 +66,18 @@ router.post('/:userID/user', async (req, res, next) => {
 	}
 })
 
+router.post('/newCategory', async (req, res, next) => {
+	try {
+		const exists = await Articles.findCategory(req.body.name).first()
+		if (exists) {
+			return res.status(409).json({ message: 'Category already exists' })
+		}
+		res.status(201).json(await Articles.addCategory(req.body))
+	} catch (error) {
+		next(error)
+	}
+})
+
 router.put('/:articleID', async (req, res, next) => {
 	try {
 	} catch (error) {

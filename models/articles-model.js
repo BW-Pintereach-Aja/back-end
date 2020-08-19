@@ -69,6 +69,14 @@ function addToCategory(category) {
 	return db('category_article').insert(category)
 }
 
+function addCategory(category) {
+	return db('categories').insert(category)
+}
+
+function findCategory(name) {
+	return db('categories').where('categories.name', name)
+}
+
 module.exports = {
 	getArticles,
 	getArticleById,
@@ -76,5 +84,7 @@ module.exports = {
 	getByCategory,
 	getCategories,
 	addArticle,
-	addToCategory
+	addToCategory,
+	addCategory,
+	findCategory
 }
