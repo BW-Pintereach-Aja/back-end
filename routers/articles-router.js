@@ -85,6 +85,7 @@ router.post('/new-category', async (req, res, next) => {
 	}
 })
 
+// edit an article
 router.put('/:articleID', async (req, res, next) => {
 	try {
 		const article = {
@@ -100,6 +101,7 @@ router.put('/:articleID', async (req, res, next) => {
 	}
 })
 
+// edit a category
 router.put('/:categoryID/edit-category', async (req, res, next) => {
 	try {
 		const edited = await Articles.editCategory(req.body, req.params.categoryID)
@@ -109,6 +111,7 @@ router.put('/:categoryID/edit-category', async (req, res, next) => {
 	}
 })
 
+// remove an article
 router.delete('/:articleID/remove-article', async (req, res, next) => {
 	try {
 		res.status(200).json(await Articles.removeArticle(req.params.articleID))
@@ -117,6 +120,7 @@ router.delete('/:articleID/remove-article', async (req, res, next) => {
 	}
 })
 
+// remove a category
 router.delete('/:categoryID/remove-category', async (req, res, next) => {
 	try {
 		res.status(200).json(await Articles.removeCategory(req.params.categoryID))
