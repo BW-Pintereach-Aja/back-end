@@ -73,7 +73,7 @@ router.post('/:userID/user', async (req, res, next) => {
 })
 
 // create new category
-router.post('/newCategory', async (req, res, next) => {
+router.post('/new-category', async (req, res, next) => {
 	try {
 		const exists = await Articles.findCategory(req.body.name).first()
 		if (exists) {
@@ -100,10 +100,18 @@ router.put('/:articleID', async (req, res, next) => {
 	}
 })
 
-router.put('/:categoryID/editCategory', async (req, res, next) => {
+router.put('/:categoryID/edit-category', async (req, res, next) => {
 	try {
 		const edited = await Articles.editCategory(req.body, req.params.categoryID)
 		res.status(201).json({ edited })
+	} catch (error) {
+		next(error)
+	}
+})
+
+router.delete('/:articleID/remove-article', async (req, res, next) => {
+	try {
+		res.status(200).json(await Articles.removeArticle(req.params.articleID))
 	} catch (error) {
 		next(error)
 	}

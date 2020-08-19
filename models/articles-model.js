@@ -10,6 +10,7 @@ function getArticles() {
 			'users.id as userID',
 			'categories.name as category',
 			'categories.desc as aboutCategory',
+			'articles.id as articleID',
 			'articles.title as articleTitle',
 			'articles.desc as articleDesc',
 			'articles.url'
@@ -91,6 +92,10 @@ function editCategory(category, id) {
 	return db('categories').update(category).where('categories.id', id).select('categories')
 }
 
+function removeArticle(id) {
+	return db('articles').delete('articles').where('articles.id', id)
+}
+
 module.exports = {
 	getArticles,
 	getArticleById,
@@ -102,5 +107,6 @@ module.exports = {
 	addCategory,
 	findCategory,
 	editArticle,
-	editCategory
+	editCategory,
+	removeArticle
 }
