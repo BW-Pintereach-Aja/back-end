@@ -1,0 +1,46 @@
+{
+  "name": "last_buildweek",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "cross-env NODE_ENV=testing jest --setupFiles dotenv/config",
+    "test:watch": "cross-env NODE_ENV=testing jest --watch --setupFiles dotenv/config"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BW-Pintereach-Aja/back-end.git"
+  },
+  "keywords": [],
+  "author": "Tiffany Arellano",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BW-Pintereach-Aja/back-end/issues"
+  },
+  "homepage": "https://github.com/BW-Pintereach-Aja/back-end#readme",
+  "devDependencies": {
+    "cross-env": "^7.0.2",
+    "dotenv": "^8.2.0",
+    "jest": "^26.4.0",
+    "nodemon": "^2.0.4",
+    "supertest": "^4.0.2"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "helmet": "^4.1.0",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.21.5",
+    "node": "^14.8.0",
+    "sqlite3": "^5.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "setupFiles": [
+      "dotenv/config"
+    ]
+  }
+}
