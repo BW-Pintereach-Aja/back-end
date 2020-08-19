@@ -29,7 +29,7 @@ router.post('/register', validation, async(stats, req, res, next) =>{
 		if (user){
 			stats(409, "Username already taken ")
 		}
-		const newUser = await Users.add({
+		const newUser = await Users.add({		
 			firstname,
 			lastname,
 			username,
