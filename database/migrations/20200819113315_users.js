@@ -4,7 +4,7 @@ exports.up = async function(knex) {
 		table.text('firstName').notNull()
 		table.text('lastName').notNull()
 		table.text('username').unique().notNull()
-		table.text('password').unique().notNull()
+		table.text('password').notNull()
 	})
 }
 
