@@ -11,7 +11,8 @@ function getArticles() {
 			'categories.name as category',
 			'categories.desc as aboutCategory',
 			'articles.title as articleTitle',
-			'articles.desc as articleDesc'
+			'articles.desc as articleDesc',
+			'articles.url'
 		)
 }
 
@@ -27,6 +28,7 @@ function getArticleById(id) {
 			'articles.id as articleID',
 			'articles.title',
 			'articles.desc',
+			'articles.url',
 			'category_article.categoryID',
 			'categories.name as categoryName'
 		)
@@ -43,6 +45,7 @@ function getByUser(id) {
 			'users.username as user',
 			'articles.id as articleID',
 			'articles.title',
+			'articles.url',
 			'articles.desc',
 			'category_article.categoryID',
 			'categories.name as categoryName'
@@ -77,6 +80,17 @@ function findCategory(name) {
 	return db('categories').where('categories.name', name)
 }
 
+function editArticle(article, id) {
+	return db('articles')
+		.update(article)
+		.where('articles.id', id)
+		.select('articles.title', 'articles.desc', 'articles.url')
+}
+
+function editCategory(category, id) {
+	return db('categories').update(category).where('categories.id', id).select('categories')
+}
+
 module.exports = {
 	getArticles,
 	getArticleById,
@@ -86,5 +100,7 @@ module.exports = {
 	addArticle,
 	addToCategory,
 	addCategory,
-	findCategory
+	findCategory,
+	editArticle,
+	editCategory
 }

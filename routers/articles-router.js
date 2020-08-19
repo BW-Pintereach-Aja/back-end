@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const Articles = require('../models/articles-model')
 
+// get a list of existing categories
 router.get('/categories', async (req, res, next) => {
 	try {
 		res.status(200).json(await Articles.getCategories())
@@ -10,6 +11,7 @@ router.get('/categories', async (req, res, next) => {
 	}
 })
 
+// get all articles
 router.get('/', async (req, res, next) => {
 	try {
 		res.status(200).json(await Articles.getArticles())
@@ -18,6 +20,7 @@ router.get('/', async (req, res, next) => {
 	}
 })
 
+// get article by articleID
 router.get('/:id', async (req, res, next) => {
 	try {
 		res.status(200).json(await Articles.getArticleById(req.params.id))
@@ -26,6 +29,7 @@ router.get('/:id', async (req, res, next) => {
 	}
 })
 
+// get all articles from a user
 router.get('/:userID/user', async (req, res, next) => {
 	try {
 		res.status(200).json(await Articles.getByUser(req.params.userID))
@@ -34,6 +38,7 @@ router.get('/:userID/user', async (req, res, next) => {
 	}
 })
 
+// get all articles from a category
 router.get('/:categoryID/category', async (req, res, next) => {
 	try {
 		res.status(200).json(await Articles.getByCategory(req.params.categoryID))
@@ -42,6 +47,7 @@ router.get('/:categoryID/category', async (req, res, next) => {
 	}
 })
 
+// save new article
 router.post('/:userID/user', async (req, res, next) => {
 	try {
 		const article = {
@@ -66,6 +72,7 @@ router.post('/:userID/user', async (req, res, next) => {
 	}
 })
 
+// create new category
 router.post('/newCategory', async (req, res, next) => {
 	try {
 		const exists = await Articles.findCategory(req.body.name).first()
@@ -80,6 +87,23 @@ router.post('/newCategory', async (req, res, next) => {
 
 router.put('/:articleID', async (req, res, next) => {
 	try {
+		const article = {
+			url: req.body.url,
+			title: req.body.title,
+			desc: req.body.desc
+		}
+
+		const edited = await Articles.editArticle(article, req.params.articleID)
+		res.status(201).json({ edited })
+	} catch (error) {
+		next(error)
+	}
+})
+
+router.put('/:categoryID/editCategory', async (req, res, next) => {
+	try {
+		const edited = await Articles.editCategory(req.body, req.params.categoryID)
+		res.status(201).json({ edited })
 	} catch (error) {
 		next(error)
 	}
