@@ -48,8 +48,17 @@ router.post('/:userID/user', async (req, res, next) => {
 			categoryID: Number(req.body.categoryID),
 			articleID: Number(newArticle[0])
 		}
+
 		const posted = await Articles.addToCategory(category)
+
 		res.status(201).json(posted)
+	} catch (error) {
+		next(error)
+	}
+})
+
+router.put('/:articleID', async (req, res, next) => {
+	try {
 	} catch (error) {
 		next(error)
 	}
