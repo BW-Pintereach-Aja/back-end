@@ -22,7 +22,7 @@ server.use("/", (req, res) => {
 
 server.use((err, req, res, next) => {
 	console.dir(err)
-	res.status(500).json({ errorMessage: 'Something went wrong' })
+	res.status(500).json({ errorMessage: 'Something went wrong...' })
 })
 
 if (!module.parent) {
