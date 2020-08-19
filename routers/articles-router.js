@@ -117,4 +117,12 @@ router.delete('/:articleID/remove-article', async (req, res, next) => {
 	}
 })
 
+router.delete('/:categoryID/remove-category', async (req, res, next) => {
+	try {
+		res.status(200).json(await Articles.removeCategory(req.params.categoryID))
+	} catch (error) {
+		next(error)
+	}
+})
+
 module.exports = router

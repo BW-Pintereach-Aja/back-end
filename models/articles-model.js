@@ -96,6 +96,10 @@ function removeArticle(id) {
 	return db('articles').delete('articles').where('articles.id', id)
 }
 
+function removeCategory(id) {
+	return db('categories').delete('categories').where('categories.id', id)
+}
+
 module.exports = {
 	getArticles,
 	getArticleById,
@@ -108,5 +112,6 @@ module.exports = {
 	findCategory,
 	editArticle,
 	editCategory,
-	removeArticle
+	removeArticle,
+	removeCategory
 }
