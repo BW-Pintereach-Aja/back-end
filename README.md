@@ -4,7 +4,7 @@
 
 ### POST Users: Registration
 
-```json
+```
 {
   firstName: "", // string, required
   lastName: "", // string, required
@@ -14,7 +14,7 @@
 ```
 
 ### POST Users: Login
-```json
+```
 {
   username: "",
   password: ""
@@ -22,7 +22,7 @@
 ```
 
 ### POST Article: Saving new article
-```json
+```
 {
   url: "", // string, required
   title: "", // string, required
@@ -33,7 +33,7 @@
 ```
 
 ### POST Category: Adding new category
-```json
+```
 {
   name: "", // string, required
   desc: "", // string, NOT required
@@ -41,7 +41,7 @@
 ```
 
 ### PUT Article: Editing an article
-```json
+```
 {
   url: "", // string, required
   title: "", // string, required
@@ -50,7 +50,7 @@
 ```
 
 ### PUT Category: Editing a category
-```json
+```
 {
   name: "", // string, required
   desc: "", // string, NOT required
