@@ -43,7 +43,7 @@ router.post('/register', async (req, res, next) => {
 		const { firstname, lastname, username, password } = req.body
 		const user = await Users.findBy(username).first()
 		if (user) {
-			res.status(409).json({
+			return res.status(409).json({
 				message: 'User already taken'
 			})
 		}
@@ -63,7 +63,7 @@ router.post('/register', async (req, res, next) => {
 router.post('/login', validation, async (req, res, next) => {
 	try {
 		const { firstname, lastname, username, password } = req.body
-		const user = await Users.findBy({ username }).first()
+		const user = await Users.findBy(username).first()
 
 		if (!user) {
 			return res.status(400).json({
