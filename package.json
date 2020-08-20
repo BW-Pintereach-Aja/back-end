@@ -37,10 +37,13 @@
 		"jsonwebtoken": "^8.5.1",
 		"knex": "^0.21.5",
 		"node": "^14.8.0",
+		"pg": "^8.3.2",
 		"sqlite3": "^5.0.0"
 	},
 	"jest": {
 		"testEnvironment": "node",
-		"setupFiles": [ "dotenv/config" ]
+		"setupFiles": [
+			"dotenv/config"
+		]
 	}
 }
