@@ -69,7 +69,7 @@
 | POST   | /api/articles/:userID/user                | Save a new article                    |
 | POST   | /api/articles/new-category                | Add a new category                    |
 | PUT    | /api/articles/:articleID                  | Edit an article                       |
-| PUT    | /api/articles:categoryID/edit-category    | Edit a category                       |
+| PUT    | /api/articles/:categoryID/edit-category   | Edit a category                       |
 | DELETE | /api/articles/:articleID/remove-article   | Delete an article                     |
 | DELETE | /api/articles/:categoryID/remove-category | Delete a category                     |
 
