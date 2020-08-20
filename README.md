@@ -74,4 +74,10 @@
 | PUT    | /api/articles/:categoryID/edit-category   | Edit a category                       |
 | DELETE | /api/articles/:articleID/remove-article   | Delete an article                     |
 | DELETE | /api/articles/:categoryID/remove-category | Delete a category                     |
+| Auth ---- | -------------------------------------------| ------------------------------                     |
+| GET | /api/auth/users | Get all users    |
+| POST | /api/auth/register| Creates a new user   |
+| POST | /api/auth/login | Logs in users  |
+| POST | /api/auth/logout| Logs out users  |
+
 
