@@ -2,6 +2,8 @@
 
 ## Schema
 
+### Endpoint: https://bw-pintereach-aja.herokuapp.com/
+
 ### POST Users: Registration
 
 ```
