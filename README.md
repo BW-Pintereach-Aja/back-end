@@ -76,8 +76,10 @@
 | DELETE | /api/articles/:categoryID/remove-category | Delete a category                     |
 | Auth ---- | -------------------------------------------| ------------------------------                     |
 | GET | /api/auth/users | Get all users    |
-| POST | /api/auth/register| Creates a new user   |
+| GET | /api/auth/logout| Logs out users  |
 | POST | /api/auth/login | Logs in users  |
-| POST | /api/auth/logout| Logs out users  |
+| POST | /api/auth/register| Creates a new user   |
+
+
 
 
