@@ -84,8 +84,8 @@ router.post('/login', validation, async (req, res, next) => {
 			lastname: user.lastname,
 			username: user.username
 		}
-		res.cookie('token', jwt.sign(payload, process.env.JWT_SECRET || 'secretiveness'))
 		const token = jwt.sign(payload, process.env.JWT_SECRET || 'secretiveness')
+		res.cookie('token', token)
 		res.json({
 			message: `Welcome ${user.username}!`,
 			token: token
@@ -98,11 +98,12 @@ router.post('/login', validation, async (req, res, next) => {
 //ogout
 router.get('/logout', async (req, res, next) => {
 	try {
+		res.cookie('token', '')
 		req.session.destroy((err) => {
 			if (err) {
 				next(err)
 			} else {
-				res.status(204).end()
+				return res.status(204).end()
 			}
 		})
 	} catch (err) {

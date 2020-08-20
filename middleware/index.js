@@ -5,7 +5,7 @@ const Users = require('../models/users-model')
 
 //status code function-middleware
 const stats = (code, msg) => {
-	res.status(code).json({
+	return res.status(code).json({
 		message: msg
 	})
 }
@@ -35,15 +35,20 @@ const validateUser = async (stats, req, res, next) => {
 }
 
 function restrict() {
-	return async (stats, req, res, next) => {
+	return async (req, res, next) => {
 		try {
-			const token = req.headers.authorization || req.cookies.token
+			const authErr = { message: 'Invalid Credentials' }
+			const token = req.cookies.token
+			console.log(token)
+
 			if (!token) {
-				return stats(401, 'Invalid Credentials 1')
+				// return stats(401, 'Invalid Credentials 1')
+				return res.status(401).json(authErr)
 			}
-			jwt.verify(token, process.env.JWT_SECRET || 'All that noise', (err, decoded) => {
+			jwt.verify(token, process.env.JWT_SECRET || 'secretiveness', (err, decoded) => {
 				if (err) {
-					return stats(401, 'Invalid Credentials 2')
+					// return stats(401, 'Invalid Credentials 2')
+					return res.status(401).json(authErr)
 				}
 				next()
 			})
