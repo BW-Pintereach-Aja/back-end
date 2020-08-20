@@ -13,7 +13,7 @@ async function add(user) {
 }
 
 function find() {
-	return db('users').select('id', 'username')
+	return db("users").select("id", "username", "firstname", "lastname")
 }
 
 function findBy(filter) {
