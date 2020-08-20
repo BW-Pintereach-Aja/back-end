@@ -1,6 +1,23 @@
-exports.seed = async function(knex) {
-	await knex('category_article').truncate()
-	await knex('categories').truncate()
-	await knex('articles').truncate()
-	await knex('users').truncate()
+const cleaner = require('knex-cleaner')
+
+function cleanTables(knex) {
+	return cleaner
+		.clean(knex, {
+			mode: 'truncate',
+			restartIdentity: true,
+			ignoreTables: [ 'knex_migrations', 'knex_migrations_lock' ]
+		})
+		.then(() => console.log('\n***Tables truncated, Ready to seed***\n'))
+}
+
+exports.seed = function(knex) {
+	if (knex.client.config.client === 'sqlite3') {
+		/* 
+      a recent version of SQLite3 broke knex-cleaner's functionality when foreign keys are enabled,
+      so we're temporarily disabling foreign keys when running the seeds against SQLite3.
+    */
+		return knex.raw('PRAGMA foreign_keys = OFF;').then(() => cleanTables(knex))
+	} else {
+		return cleanTables(knex)
+	}
 }

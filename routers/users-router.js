@@ -6,13 +6,13 @@ const jwt = require('jsonwebtoken')
 
 const { validation, restrict, stats } = require('../middleware/index')
 
-router.get('/', async (req, res, next) => {
-	try {
-		res.status(200).json({ message: 'Users router works' })
-	} catch (error) {
-		next(error)
-	}
-})
+// router.get('/', async (req, res, next) => {
+// 	try {
+// 		res.status(200).json({ message: 'Users router works' })
+// 	} catch (error) {
+// 		next(error)
+// 	}
+// })
 
 router.get('/users',  async (req, res, next) =>{
 	try {
@@ -32,7 +32,7 @@ router.post('/register', validation, async( req, res, next) =>{
 				message: "User already taken"
 			})
 		}
-		const newUser = await Users.add({		
+		const newUser = await Users.add({
 			firstname,
 			lastname,
 			username,
@@ -42,7 +42,7 @@ router.post('/register', validation, async( req, res, next) =>{
 	} catch(err){
 		next(err)
 	}
-});
+})
 
 router.post('/login', validation, async (req, res, next) =>{
 try{
