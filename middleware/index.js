@@ -1,5 +1,7 @@
 const db = require('../database/config')
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const usersModel = require('../models/users-model');
+const Users = require('../models/users-model')
 
 
 //status code function-middleware
@@ -15,6 +17,20 @@ function validation  ( stats, req, res, next ){
         next()
     } else{
         stats(400, "Username or Password not entered")
+    }
+}
+
+//validateUser
+const validateUser = async (stats, req, res, next) =>{
+    try{
+        const validUser = await Users.findBy({ id: req.params.id })
+            if(!validUser){
+                return stats(404, "User does not exist")
+            }
+            req.user = validUser;
+            next();
+    } catch( err){
+        next(err)
     }
 }
 
@@ -37,5 +53,5 @@ function  restrict  () {
         }
 }
 
-module.exports = { validation, restrict, stats}
+module.exports = { validation, validateUser,  restrict, stats}
 

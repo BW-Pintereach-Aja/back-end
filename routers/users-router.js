@@ -4,8 +4,9 @@ const Users = require('../models/users-model')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
-const { validation, restrict, stats } = require('../middleware/index')
+const { validation, validateUser, restrict, stats } = require('../middleware/index')
 
+// init router
 router.get('/', async (req, res, next) => {
 	try {
 		res.status(200).json({ message: 'Users router works' })
@@ -14,6 +15,7 @@ router.get('/', async (req, res, next) => {
 	}
 })
 
+//get users
 router.get('/users',  async (req, res, next) =>{
 	try {
 		res.json(await Users.find())
@@ -22,7 +24,23 @@ router.get('/users',  async (req, res, next) =>{
 	}
 })
 
+//get users by id
+router.get("/users/:id", validateUser, (req, res, next)=>{
+	try{
+			res.json(req.user)
+		const { user } = req.session;
+    if (user.id !== Number(req.params.id))
+      return res
+        .status(401)
+		.json({ message: "You are unable to access this resource." });
+		next()
 
+	} catch(err){
+		next(err)
+	}
+})
+
+//register user
 router.post('/register', validation, async( req, res, next) =>{
 	try{
 		const { firstname, lastname, username, password } = req.body;
@@ -36,7 +54,7 @@ router.post('/register', validation, async( req, res, next) =>{
 			firstname,
 			lastname,
 			username,
-			password: await bcrypt.hash(password, 15)
+			password: await bcrypt.hash(password, 10)
 		});
 		res.status(201).json(newUser)
 	} catch(err){
@@ -44,6 +62,8 @@ router.post('/register', validation, async( req, res, next) =>{
 	}
 })
 
+
+//login
 router.post('/login', validation, async (req, res, next) =>{
 try{
 	const {  firstname, lastname, username, password } = req.body
@@ -78,6 +98,8 @@ try{
 }
 } )
 
+
+//ogout
 router.get("/logout", async (req, res, next) => {
 	try {
 		req.session.destroy((err) => {
