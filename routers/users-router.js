@@ -6,13 +6,13 @@ const jwt = require('jsonwebtoken')
 
 const { validation, restrict, stats } = require('../middleware/index')
 
-// router.get('/', async (req, res, next) => {
-// 	try {
-// 		res.status(200).json({ message: 'Users router works' })
-// 	} catch (error) {
-// 		next(error)
-// 	}
-// })
+router.get('/', async (req, res, next) => {
+	try {
+		res.status(200).json({ message: 'Users router works' })
+	} catch (error) {
+		next(error)
+	}
+})
 
 router.get('/users',  async (req, res, next) =>{
 	try {
