@@ -54,7 +54,7 @@ router.post('/register', async (req, res, next) => {
 			password: await bcrypt.hash(password, 10)
 		})
 
-		res.status(201).json(await Users.findById(newUser[0]))
+		res.status(201).json(newUser)
 	} catch (err) {
 		next(err)
 	}
