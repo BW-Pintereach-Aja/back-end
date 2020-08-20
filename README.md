@@ -6,8 +6,8 @@
 
 ```
 {
-  firstName: "", // string, required
-  lastName: "", // string, required
+  firstname: "", // string, required
+  lastname: "", // string, required
   username: "", // string, required, must be unique
   password: "", // string, required
 }
