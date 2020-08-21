@@ -26,5 +26,22 @@ describe('Auth endpoints', () =>{
         .get('/')
         .expect('Content-Type', 'application/json')
     })
+    it('Should have content length of 32', () =>{
+        request(server)
+        .get('/')
+        .expect('Content-Length', 32)
+    })
+    })
+
+    describe('/post/register', () =>{
+        it('returns new user', async (done) =>{
+           await request(server)
+            .post('/api/auth/register')
+            .end((err, res) =>{
+                if(err) return done(err)
+                done()
+            })
+
+        })
     })
 })
