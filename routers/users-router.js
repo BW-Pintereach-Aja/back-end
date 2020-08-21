@@ -41,12 +41,14 @@ router.get('/users/:id', validateUser, (req, res, next) => {
 router.post('/register', async (req, res, next) => {
 	try {
 		const { firstName, lastName, username, password } = req.body
-		const user = await Users.findBy({ username }).first()
+		const user = await Users.findBy(username).first()
+
 		if (user) {
 			return res.status(409).json({
 				message: 'User already taken'
 			})
 		}
+
 		const newUser = await Users.add({
 			firstName,
 			lastName,
@@ -63,8 +65,8 @@ router.post('/register', async (req, res, next) => {
 //login
 router.post('/login', validation, async (req, res, next) => {
 	try {
-		const { firstName, lastName, username, password } = req.body
-		const user = await Users.findBy({ username }).first()
+		const { username, password } = req.body
+		const user = await Users.findBy(username).first()
 
 		if (!user) {
 			return res.status(400).json({
