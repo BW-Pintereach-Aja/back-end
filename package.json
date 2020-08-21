@@ -8,8 +8,7 @@
 		"server": "cross-env NODE_ENV=development nodemon -r dotenv/config index.js",
 		"test": "cross-env NODE_ENV=testing jest --setupFiles dotenv/config",
 		"test:watch": "cross-env NODE_ENV=testing jest --watch --setupFiles dotenv/config",
-		"migrateTesting": "cross-env NODE_ENV=testing knex migrate:latest", 
-		"greet": "echo hello && echo greetings" 
+		"migrateTesting": "cross-env NODE_ENV=testing knex migrate:latest" 
 	},
 	"repository": {
 		"type": "git",
