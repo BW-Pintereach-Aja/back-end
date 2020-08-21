@@ -33,15 +33,20 @@ describe('Auth endpoints', () =>{
     })
     })
 
-    describe('/post/register', () =>{
-        it('returns new user', async (done) =>{
-           await request(server)
+    describe('/post register', () =>{
+        it('should create new user', async () =>{
+            const res = await request(server)
             .post('/api/auth/register')
-            .end((err, res) =>{
-                if(err) return done(err)
-                done()
+            .send({
+                id:1,
+                firstname: "Tester",
+                lastname: "Testing",
+                username: "runner",
+                password: 'password'
             })
-
+            expect(res.statusCode).toEqual(201)
         })
     })
+
+    
 })
