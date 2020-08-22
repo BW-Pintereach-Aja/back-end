@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const Articles = require('../models/articles-model')
+const { findById } = require('../models/users-model')
 
 // get a list of existing categories
 router.get('/categories', async (req, res, next) => {
@@ -23,7 +24,12 @@ router.get('/', async (req, res, next) => {
 // get article by articleID
 router.get('/:id', async (req, res, next) => {
 	try {
-		res.status(200).json(await Articles.getArticleById(req.params.id))
+		const article = await Articles.getArticleById(req.params.id)
+		console.log(article)
+		if (article.length === 0) {
+			return res.status(404).json({ message: 'Article by that ID does not exist' })
+		}
+		res.status(200).json(article)
 	} catch (error) {
 		next(error)
 	}
@@ -41,7 +47,11 @@ router.get('/:userID/user', async (req, res, next) => {
 // get all articles from a category
 router.get('/:categoryID/category', async (req, res, next) => {
 	try {
-		res.status(200).json(await Articles.getByCategory(req.params.categoryID))
+		const found = await Articles.getByCategory(req.params.categoryID)
+		if (found.length === 0) {
+			return res.status(404).json({ message: 'Category by that ID does not exist' })
+		}
+		res.status(200).json(found)
 	} catch (error) {
 		next(error)
 	}
@@ -56,8 +66,8 @@ router.post('/:userID/user', async (req, res, next) => {
 			desc: req.body.desc,
 			userID: Number(req.params.userID)
 		}
+
 		const newArticle = await Articles.addArticle(article)
-		// res.status(201).json(newArticle)
 
 		const category = {
 			categoryID: Number(req.body.categoryID),

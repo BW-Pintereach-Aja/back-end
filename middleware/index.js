@@ -39,7 +39,6 @@ function restrict() {
 		try {
 			const authErr = { message: 'Invalid Credentials' }
 			const token = req.cookies.token
-			console.log(token)
 
 			if (!token) {
 				// return stats(401, 'Invalid Credentials 1')

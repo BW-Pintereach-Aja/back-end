@@ -100,6 +100,11 @@ function removeCategory(id) {
 	return db('categories').delete('categories').where('categories.id', id)
 }
 
+function LowerCase(string) {
+	console.log(string)
+	return string.toLowerCase()
+}
+
 module.exports = {
 	getArticles,
 	getArticleById,
