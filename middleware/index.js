@@ -38,7 +38,8 @@ function restrict() {
 	return async (req, res, next) => {
 		try {
 			const authErr = { message: 'Invalid Credentials' }
-			const token = req.cookies.token
+			const token = req.cookies.token || req.headers.authorization
+			console.log(token)
 
 			if (!token) {
 				// return stats(401, 'Invalid Credentials 1')
