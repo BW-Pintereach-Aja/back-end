@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Articles = require("../models/articles-model");
 const { findById } = require("../models/users-model");
+const { articleExists } = require("../middleware/index");
 
 // get a list of existing categories
 router.get("/categories", async (req, res, next) => {
@@ -24,7 +25,6 @@ router.get("/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   try {
     const article = await Articles.getArticleById(req.params.id);
-    console.log(article);
     if (article.length === 0) {
       return res
         .status(404)
@@ -125,9 +125,9 @@ router.put("/:categoryID/edit-category", async (req, res, next) => {
 });
 
 // remove an article
-router.delete("/:articleID/remove-article", async (req, res, next) => {
+router.delete("/:id/remove-article", articleExists, async (req, res, next) => {
   try {
-    res.status(200).json(await Articles.removeArticle(req.params.articleID));
+    res.status(200).json(await Articles.removeArticle(req.params.id));
   } catch (error) {
     next(error);
   }
