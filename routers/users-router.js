@@ -40,23 +40,21 @@ router.get('/users/:id', validateUser, (req, res, next) => {
 //register user
 router.post('/register', async (req, res, next) => {
 	try {
-		const { firstName, lastName, username, password } = req.body
-		const user = await Users.findBy(username).first()
-		console.log(user)
+		const { firstname, lastname, username, password } = req.body
+		const user = await Users.findBy({ username }).first()
 		if (user) {
 			return res.status(409).json({
 				message: 'User already taken'
 			})
 		}
-
-		await Users.add({
-			firstName,
-			lastName,
+		const newUser = await Users.add({
+			firstname,
+			lastname,
 			username,
 			password: await bcrypt.hash(password, 10)
 		})
 
-		res.status(201).json({ message: 'User successfully created' })
+		res.status(201).json(newUser)
 	} catch (err) {
 		next(err)
 	}
@@ -65,8 +63,8 @@ router.post('/register', async (req, res, next) => {
 //login
 router.post('/login', validation, async (req, res, next) => {
 	try {
-		const { username, password } = req.body
-		const user = await Users.findBy(username).first()
+		const { firstname, lastname, username, password } = req.body
+		const user = await Users.findBy({ username }).first()
 
 		if (!user) {
 			return res.status(400).json({
@@ -82,8 +80,8 @@ router.post('/login', validation, async (req, res, next) => {
 		}
 		const payload = {
 			userId: user.id,
-			firstName: user.firstName,
-			lastName: user.lastName,
+			firstname: user.firstname,
+			lastname: user.lastname,
 			username: user.username
 		}
 		const token = jwt.sign(payload, process.env.JWT_SECRET || 'secretiveness')
