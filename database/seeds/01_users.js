@@ -1,6 +1,6 @@
 exports.seed = async function(knex) {
 	await knex('users').insert([
-		{ firstName: 'Tiffany', lastName: 'Kei', username: 'tiff', password: 'password' },
-		{ firstName: 'Taj', lastName: 'H', username: 'taj', password: 'password' }
+		{ firstname: 'Tiffany', lastname: 'Kei', username: 'tiff', password: 'password' },
+		{ firstname: 'Taj', lastname: 'H', username: 'taj', password: 'password' }
 	])
 }

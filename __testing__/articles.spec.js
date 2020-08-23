@@ -12,8 +12,8 @@ afterAll(async () => {
 	await db.destroy()
 })
 
-describe('GET /', () => {
-	it('GET / (Unauthorized) throws a 401', async () => {
+describe('', () => {
+	it('GET / (Unauthorized)', async () => {
 		const res = await supertest(server).get('/api/articles')
 		expect(res.statusCode).toBe(401)
 		expect(res.body).toEqual({ message: 'Invalid Credentials' })
