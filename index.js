@@ -25,10 +25,6 @@ server.use(
 server.use('/api/auth', authRouter)
 server.use('/api/articles', restrict(), articleRouter)
 
-server.use('/', (req, res) => {
-	res.json({ message: 'API is up and running...' })
-})
-
 server.use((err, req, res, next) => {
 	console.dir(err)
 	res.status(500).json({ errorMessage: 'Something went wrong...' })

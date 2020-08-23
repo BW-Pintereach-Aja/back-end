@@ -1,17 +1,22 @@
 const supertest = require('supertest')
 const server = require('../index')
+const db = require('../database/config')
 
-describe('Testing Environment', () => {
-	it("The environment should be 'testing'", async () => {
-		expect(process.env.NODE_ENV).toBe('testing')
-	})
+beforeAll(async () => {})
+
+afterAll(async () => {
+	await db.destroy()
 })
 
-describe('', () => {
-	it('GET / (Unauthorized)', async () => {
+describe('GET /', () => {
+	it('GET / (Unauthorized) throws a 401', async () => {
 		const res = await supertest(server).get('/api/articles')
-		console.log(res)
 		expect(res.statusCode).toBe(401)
+	})
+
+	it('GET / (Unauthorized) returns message', async () => {
+		const res = await supertest(server).get('/api/articles')
+		expect(res.body).toEqual({ message: 'Invalid Credentials' })
 	})
 
 	it('GET / (Authorized)', async () => {})
