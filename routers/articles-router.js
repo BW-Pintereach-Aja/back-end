@@ -1,7 +1,11 @@
 const router = require("express").Router();
 const Articles = require("../models/articles-model");
 const { findById } = require("../models/users-model");
-const { articleExists } = require("../middleware/index");
+const {
+  articleExists,
+  categoryExists,
+  inputValid,
+} = require("../middleware/index");
 
 // get a list of existing categories
 router.get("/categories", async (req, res, next) => {
@@ -52,7 +56,7 @@ router.get("/:categoryID/category", async (req, res, next) => {
     if (found.length === 0) {
       return res
         .status(404)
-        .json({ message: "Category by that ID does not exist" });
+        .json({ message: "There are currently no articles in this category." });
     }
     res.status(200).json(found);
   } catch (error) {
@@ -86,17 +90,18 @@ router.post("/:userID/user", async (req, res, next) => {
 });
 
 // create new category
-router.post("/new-category", async (req, res, next) => {
-  try {
-    const exists = await Articles.findCategory(req.body.name).first();
-    if (exists) {
-      return res.status(409).json({ message: "Category already exists" });
+router.post(
+  "/new-category",
+  inputValid,
+  categoryExists,
+  async (req, res, next) => {
+    try {
+      res.status(201).json(await Articles.addCategory(body));
+    } catch (error) {
+      next(error);
     }
-    res.status(201).json(await Articles.addCategory(req.body));
-  } catch (error) {
-    next(error);
   }
-});
+);
 
 // edit an article
 router.put("/:articleID", async (req, res, next) => {

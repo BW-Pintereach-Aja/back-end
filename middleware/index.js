@@ -75,4 +75,35 @@ async function articleExists(req, res, next) {
   }
 }
 
-module.exports = { validation, validateUser, restrict, stats, articleExists };
+async function categoryExists(req, res, next) {
+  const category = await Articles.findCategory(req.body.name).first();
+  if (category) {
+    return res
+      .status(409)
+      .json({ message: "Category exists. Request terminated." });
+  }
+  next();
+}
+
+function inputValid(req, res, next) {
+  // console.log(req.body);
+  try {
+    if (!req.body) {
+      return res.status(401).json({ message: "Valid input is required" });
+    }
+    body = req.body;
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
+
+module.exports = {
+  validation,
+  validateUser,
+  restrict,
+  stats,
+  articleExists,
+  categoryExists,
+  inputValid,
+};
