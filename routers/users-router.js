@@ -40,7 +40,7 @@ router.get('/users/:id', validateUser, (req, res, next) => {
 //register user
 router.post('/register', async (req, res, next) => {
 	try {
-		const { firstname, lastname, username, password } = req.body
+		const { firstName, lastName, username, password } = req.body
 		const user = await Users.findBy({ username }).first()
 		if (user) {
 			return res.status(409).json({
@@ -48,8 +48,8 @@ router.post('/register', async (req, res, next) => {
 			})
 		}
 		const newUser = await Users.add({
-			firstname,
-			lastname,
+			firstName,
+			lastName,
 			username,
 			password: await bcrypt.hash(password, 10)
 		})
@@ -63,7 +63,7 @@ router.post('/register', async (req, res, next) => {
 //login
 router.post('/login', validation, async (req, res, next) => {
 	try {
-		const { firstname, lastname, username, password } = req.body
+		const { firstName, lastName, username, password } = req.body
 		const user = await Users.findBy({ username }).first()
 
 		if (!user) {
@@ -80,8 +80,8 @@ router.post('/login', validation, async (req, res, next) => {
 		}
 		const payload = {
 			userId: user.id,
-			firstname: user.firstname,
-			lastname: user.lastname,
+			firstName: user.firstName,
+			lastName: user.lastName,
 			username: user.username
 		}
 		const token = jwt.sign(payload, process.env.JWT_SECRET || 'secretiveness')

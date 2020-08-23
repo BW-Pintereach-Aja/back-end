@@ -10,7 +10,6 @@ describe('Testing Environment', () => {
 describe('', () => {
 	it('GET / (Unauthorized)', async () => {
 		const res = await supertest(server).get('/api/articles')
-		console.log(res)
 		expect(res.statusCode).toBe(401)
 	})
 
