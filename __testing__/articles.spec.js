@@ -4,6 +4,10 @@ const db = require('../database/config')
 
 beforeAll(async () => {})
 
+beforeEach(async () => {
+	await db.seed.run()
+})
+
 afterAll(async () => {
 	await db.destroy()
 })
