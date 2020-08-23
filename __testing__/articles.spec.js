@@ -85,8 +85,36 @@ describe("", () => {
     const res = await supertest(server)
       .get("/api/articles/335342/category")
       .set({ Authorization: process.env.TEST_TOKEN });
-    console.log(res.body);
     expect(res.body.length).toBe(0);
-    expect(res.statusCode).toBe(404);
+    // expect(res.statusCode).toBe(404);
+  });
+});
+
+describe("POST requests", () => {
+  it("POST new article", async () => {
+    const res = await supertest(server)
+      .post("/api/articles/1/user")
+      .send({
+        url: "yirano.dev",
+        title: "Portfolio",
+        desc: "My portfolio",
+        categoryID: 1,
+      })
+      .set({ Authorization: process.env.TEST_TOKEN });
+    expect(res.statusCode).toBe(201);
+    expect(res.body).toEqual([6]);
+  });
+
+  it("POST new category", async () => {
+    const res = await supertest(server)
+      .post("/api/articles/new-category")
+      .send({
+        name: "New Category",
+        desc: "This is a new category",
+      })
+      .set({ Authorization: process.env.TEST_TOKEN });
+
+    expect(res.statusCode).toBe(201);
+    expect(res.body).toEqual([4]);
   });
 });
