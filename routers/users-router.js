@@ -49,14 +49,14 @@ router.post('/register', async (req, res, next) => {
 			})
 		}
 
-		const newUser = await Users.add({
+		await Users.add({
 			firstName,
 			lastName,
 			username,
 			password: await bcrypt.hash(password, 10)
 		})
 
-		res.status(201).json(newUser)
+		res.status(201).json({ message: 'User successfully created' })
 	} catch (err) {
 		next(err)
 	}
