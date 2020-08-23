@@ -19,5 +19,13 @@ describe('GET /', () => {
 		expect(res.body).toEqual({ message: 'Invalid Credentials' })
 	})
 
-	it('GET / (Authorized)', async () => {})
+	it('GET / (Authorized) w/Cookie', async () => {
+		const res = await supertest(server).get('/api/articles').set('Cookie', `token=${process.env.TEST_TOKEN}`)
+		expect(res.statusCode).toBe(200)
+	})
+
+	it('GET / (Authorized) w/Header', async () => {
+		const res = await supertest(server).get('/api/articles').set({ Authorization: process.env.TEST_TOKEN })
+		expect(res.statusCode).toBe(200)
+	})
 })
