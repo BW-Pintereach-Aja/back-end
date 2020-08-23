@@ -25,12 +25,13 @@ router.get('/users', async (req, res, next) => {
 })
 
 //get users by id
-router.get('/users/:id', validateUser, (req, res, next) => {
+router.get('/users/:id', stats,  validateUser, (req, res, next) => {
 	try {
 		res.json(req.user)
 		const { user } = req.session
 		if (user.id !== Number(req.params.id))
-			return res.status(401).json({ message: 'You are unable to access this resource.' })
+			stats(401, "You are unabl")
+			// return res.status(401).json({ message: 'You are unable to access this resource.' })
 		next()
 	} catch (err) {
 		next(err)
@@ -40,21 +41,21 @@ router.get('/users/:id', validateUser, (req, res, next) => {
 //register user
 router.post('/register', async (req, res, next) => {
 	try {
-		const { firstname, lastname, username, password } = req.body
-		const user = await Users.findBy({ username }).first()
+		const { firstName, lastName, userName, password } = req.body
+		const user = await Users.findBy({ userName }).first()
 		if (user) {
 			return res.status(409).json({
 				message: 'User already taken'
 			})
 		}
 		const newUser = await Users.add({
-			firstname,
-			lastname,
-			username,
+			firstName,
+			lastName,
+			userName,
 			password: await bcrypt.hash(password, 10)
 		})
 
-		res.status(201).json(newUser)
+		res.status(201).json({message: "New user created"})
 	} catch (err) {
 		next(err)
 	}
@@ -63,8 +64,8 @@ router.post('/register', async (req, res, next) => {
 //login
 router.post('/login', validation, async (req, res, next) => {
 	try {
-		const { firstname, lastname, username, password } = req.body
-		const user = await Users.findBy({ username }).first()
+		const { firstName, lastName, userName, password } = req.body
+		const user = await Users.findBy({ userName }).first()
 
 		if (!user) {
 			return res.status(400).json({
@@ -80,14 +81,14 @@ router.post('/login', validation, async (req, res, next) => {
 		}
 		const payload = {
 			userId: user.id,
-			firstname: user.firstname,
-			lastname: user.lastname,
-			username: user.username
+			firstName: user.firstName,
+			lastName: user.lastName,
+			userName: user.userName
 		}
 		const token = jwt.sign(payload, process.env.JWT_SECRET || 'secretiveness')
 		res.cookie('token', token)
 		res.json({
-			message: `Welcome ${user.username}!`,
+			message: `Welcome ${user.userName}!`,
 			token: token
 		})
 	} catch (err) {
@@ -95,7 +96,7 @@ router.post('/login', validation, async (req, res, next) => {
 	}
 })
 
-//ogout
+//logout
 router.get('/logout', async (req, res, next) => {
 	try {
 		res.cookie('token', '')
@@ -103,7 +104,7 @@ router.get('/logout', async (req, res, next) => {
 			if (err) {
 				next(err)
 			} else {
-				return res.status(204).end()
+				return res.status(204).json({ message: "Goodbye"}).end()
 			}
 		})
 	} catch (err) {

@@ -4,18 +4,19 @@ const usersModel = require('../models/users-model')
 const Users = require('../models/users-model')
 
 //status code function-middleware
-const stats = (code, msg) => {
-	return res.status(code).json({
+const stats = (code, msg, res) => {
+		res.status(code).json({
 		message: msg
 	})
 }
 
 // validation
 function validation(stats, req, res, next) {
+
 	if (req.body && req.body.username && req.body.password) {
 		next()
 	} else {
-		// stats(400, "Username or Password not entered")
+		// stats(409, "Username or Password not entered")
 		res.status(400).json({ message: 'Username or password not entered' })
 	}
 }

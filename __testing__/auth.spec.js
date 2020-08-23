@@ -1,6 +1,7 @@
 const request = require('supertest');
 const server = require('../index');
 const { expectCt } = require('helmet');
+const { JsonWebTokenError } = require('jsonwebtoken');
 
 //jest working?
 it('jest test', ()=>{
@@ -34,17 +35,16 @@ describe('Auth endpoints', () =>{
     })
 
     describe('/post register', () =>{
-        it('should create new user', async () =>{
+        it('should create new user', async (next) =>{
             const res = await request(server)
             .post('/api/auth/register')
             .send({
-                id:1,
                 firstname: "Tester",
                 lastname: "Testing",
                 username: "runner",
                 password: 'password'
             })
-            expect(res.statusCode).toEqual(201)
+            expect(res.statusCode).toEqual(409)
         })
     })
 

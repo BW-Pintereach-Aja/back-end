@@ -8,17 +8,19 @@ module.exports = {
 }
 
 function find() {
-	return db('users').select('id', 'username', 'firstname', 'lastname')
+	return db('users').select('id', 'userName', 'userName', 'userName')
 }
 
 function findBy(filter) {
-	return db('users').select('id', 'username', 'password', 'firstname', 'lastname').where(filter)
+	return db('users').select('id', 'userName', 'password', 'userName', 'userName').where(filter)
 }
 
 function findById(id) {
-	return db('users').select('id', 'username').where('users.id', id).first()
+	return db('users').select('id', 'userName').where('users.id', id).first()
 }
 
 async function add(user) {
-	return await db('users').insert(user).select('id')
+	const newUser = await db('users').insert(user).select('id', 'userName', 'password', 'userName', 'userName')
+	const result = await findBy('id', 'userName', 'password', 'userName', 'userName')
+	return result;
 }
