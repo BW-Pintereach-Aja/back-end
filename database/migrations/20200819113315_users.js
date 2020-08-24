@@ -3,7 +3,7 @@ exports.up = async function(knex) {
 		table.increments('id')
 		table.text('firstName').notNull()
 		table.text('lastName').notNull()
-		table.text('userName').unique().notNull()
+		table.text('username').unique().notNull()
 		table.text('password').notNull()
 	})
 }

@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const Articles = require('../models/articles-model')
+const { validateForm } = require('../middleware/index')
 
 // get a list of existing categories
 router.get('/categories', async (req, res, next) => {
@@ -41,14 +42,15 @@ router.get('/:userID/user', async (req, res, next) => {
 // get all articles from a category
 router.get('/:categoryID/category', async (req, res, next) => {
 	try {
-		res.status(200).json(await Articles.getByCategory(req.params.categoryID))
+		const found = await Articles.getByCategory(req.params.categoryID)
+		res.status(200).json(found)
 	} catch (error) {
 		next(error)
 	}
 })
 
 // save new article
-router.post('/:userID/user', async (req, res, next) => {
+router.post('/:userID/user', validateForm, async (req, res, next) => {
 	try {
 		const article = {
 			url: req.body.url,
@@ -73,7 +75,7 @@ router.post('/:userID/user', async (req, res, next) => {
 })
 
 // create new category
-router.post('/new-category', async (req, res, next) => {
+router.post('/new-category', validateForm, async (req, res, next) => {
 	try {
 		const exists = await Articles.findCategory(req.body.name).first()
 		if (exists) {
@@ -86,7 +88,7 @@ router.post('/new-category', async (req, res, next) => {
 })
 
 // edit an article
-router.put('/:articleID', async (req, res, next) => {
+router.put('/:articleID', validateForm, async (req, res, next) => {
 	try {
 		const article = {
 			url: req.body.url,
@@ -102,7 +104,7 @@ router.put('/:articleID', async (req, res, next) => {
 })
 
 // edit a category
-router.put('/:categoryID/edit-category', async (req, res, next) => {
+router.put('/:categoryID/edit-category', validateForm, async (req, res, next) => {
 	try {
 		const edited = await Articles.editCategory(req.body, req.params.categoryID)
 		res.status(201).json({ edited })
@@ -112,18 +114,22 @@ router.put('/:categoryID/edit-category', async (req, res, next) => {
 })
 
 // remove an article
-router.delete('/:articleID/remove-article', async (req, res, next) => {
+router.delete('/:id/remove-article', async (req, res, next) => {
 	try {
-		res.status(200).json(await Articles.removeArticle(req.params.articleID))
+		const found = await Articles.getArticleById(req.params.id)
+		if (found.length === 0) {
+			return res.status(404).json({ message: 'Article by that ID does not exist. Request terminated.' })
+		}
+		res.status(200).json(await Articles.removeArticle(req.params.id))
 	} catch (error) {
 		next(error)
 	}
 })
 
 // remove a category
-router.delete('/:categoryID/remove-category', async (req, res, next) => {
+router.delete('/:id/remove-category', async (req, res, next) => {
 	try {
-		res.status(200).json(await Articles.removeCategory(req.params.categoryID))
+		res.status(200).json(await Articles.removeCategory(req.params.id))
 	} catch (error) {
 		next(error)
 	}

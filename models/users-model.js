@@ -8,11 +8,11 @@ module.exports = {
 }
 
 function find() {
-	return db('users').select('id', 'userName', 'userName', 'userName')
+	return db('users').select('id', 'username', 'firstName', 'lastName')
 }
 
 function findBy(filter) {
-	return db('users').select('id', 'userName', 'password', 'userName', 'userName').where(filter)
+	return db('users').select('id', 'username', 'password', 'firstName', 'lastName').where(filter)
 }
 
 function findById(id) {

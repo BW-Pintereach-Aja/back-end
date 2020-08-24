@@ -39,9 +39,7 @@ function restrict() {
 	return async (req, res, next) => {
 		try {
 			const authErr = { message: 'Invalid Credentials' }
-			const token = req.cookies.token
-			console.log(token)
-
+			const token = req.cookies.token || req.headers.authorization
 			if (!token) {
 				// return stats(401, 'Invalid Credentials 1')
 				return res.status(401).json(authErr)
@@ -59,4 +57,24 @@ function restrict() {
 	}
 }
 
-module.exports = { validation, validateUser, restrict, stats }
+const validateForm = async (req, res, next) => {
+	try {
+		if (
+			!req.body ||
+			req.body.url === '' ||
+			req.body.name === '' ||
+			req.body.categoryID === '' ||
+			req.body.userID === '' ||
+			req.body.title === '' ||
+			req.body.firstName === '' ||
+			req.body.lastName === ''
+		) {
+			return res.status(400).json({ message: 'Invalid Inputs.' })
+		}
+		next()
+	} catch (error) {
+		next(error)
+	}
+}
+
+module.exports = { validation, validateUser, restrict, stats, validateForm }

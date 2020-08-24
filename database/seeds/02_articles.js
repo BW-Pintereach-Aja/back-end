@@ -16,19 +16,19 @@ exports.seed = async function(knex) {
 			url: 'https://dev.to/codeartistryio/the-react-cheatsheet-for-2020-real-world-examples-4hgg',
 			title: 'React Cheatsheets for 2020',
 			desc: '+real-world examples',
-			userID: 2
+			userID: 3
 		},
 		{
 			url: 'https://dev.to/simonholdorf/9-projects-you-can-do-to-become-a-frontend-master-in-2020-n2h',
 			title: '9 Projects you can do to...',
 			desc: '...to become a Frontend Master in 2020',
-			userID: 2
+			userID: 3
 		},
 		{
 			url: 'https://dev.to/dan_abramov/making-sense-of-react-hooks-2eib',
 			title: 'Making sense of React Hooks',
 			desc: 'HOOKS!!!',
-			userID: 2
+			userID: 3
 		}
 	])
 }
