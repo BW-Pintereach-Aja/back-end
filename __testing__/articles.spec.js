@@ -72,8 +72,7 @@ describe('GET requests', () => {
 		const res = await supertest(server)
 			.get('/api/articles/335342/category')
 			.set({ Authorization: process.env.TEST_TOKEN })
-		expect(res.body.length).toBe(0)
-		// ! expect(res.statusCode).toBe(404);
+		expect(res.statusCode).toBe(404)
 	})
 })
 

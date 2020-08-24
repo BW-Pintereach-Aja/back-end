@@ -40,9 +40,12 @@ router.get('/:userID/user', async (req, res, next) => {
 })
 
 // get all articles from a category
-router.get('/:categoryID/category', async (req, res, next) => {
+router.get('/:id/category', async (req, res, next) => {
 	try {
-		const found = await Articles.getByCategory(req.params.categoryID)
+		const found = await Articles.getByCategory(req.params.id)
+		if (found.length === 0) {
+			return res.status(404).json({ message: 'Category by that ID does not exist.' })
+		}
 		res.status(200).json(found)
 	} catch (error) {
 		next(error)
