@@ -102,8 +102,7 @@ describe('POST requests', () => {
 				categoryID: 1
 			})
 			.set({ Authorization: process.env.TEST_TOKEN })
-		// expect(res.statusCode).toBe(201)
-		// !don't accept blank values
+		expect(res.statusCode).toBe(400)
 	})
 
 	it('POST new category', async () => {
@@ -141,22 +140,41 @@ describe('PUT requests', () => {
 	})
 
 	it('PUT trying to send an empty value will throw error', async () => {
-		await supertest(server).put('/api/articles/4').set({ Authorization: process.env.TEST_TOKEN }).send({
+		const res = await supertest(server).put('/api/articles/4').set({ Authorization: process.env.TEST_TOKEN }).send({
 			url: 'aQueen.dev',
-			title: 'Portfolio',
+			title: '',
 			desc: 'My portfolio',
 			categoryID: 1
 		})
-		// !don't accept blank values
+		expect(res.statusCode).toBe(400)
 	})
 })
 
 describe('DELETE requests', () => {
 	it('DELETE an article', async () => {
-		await supertest(server).delete('/api/articles/1/remove-article').set({ Authorization: process.env.TEST_TOKEN })
+		const res = await supertest(server)
+			.delete('/api/articles/1/remove-article')
+			.set({ Authorization: process.env.TEST_TOKEN })
 
-		const res = await supertest(server).get('/api/articles').set('Cookie', `token=${process.env.TEST_TOKEN}`)
+		expect(res.statusCode).toBe(200)
 
-		expect(res.body.length).toBe(6)
+		const count = await supertest(server).get('/api/articles').set({ Authorization: process.env.TEST_TOKEN })
+		expect(count.body.length).toBe(5)
+	})
+
+	it('DELETE should throw 404', async () => {
+		const res = await supertest(server)
+			.delete('/api/articles/1345346346346/remove-article')
+			.set({ Authorization: process.env.TEST_TOKEN })
+
+		expect(res.statusCode).toBe(404)
+	})
+
+	it('DELETE a category', async () => {
+		await supertest(server).delete('/api/articles/1/remove-category').set({ Authorization: process.env.TEST_TOKEN })
+
+		const res = await supertest(server).get('/api/articles').set({ Authorization: process.env.TEST_TOKEN })
+
+		expect(res.body.length).toBe(1)
 	})
 })
