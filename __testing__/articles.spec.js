@@ -1,7 +1,6 @@
 const supertest = require('supertest')
 const server = require('../index')
 const db = require('../database/config')
-const { set } = require('../index')
 
 beforeAll(async () => {
 	await db.seed.run()
