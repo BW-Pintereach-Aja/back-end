@@ -56,4 +56,24 @@ function restrict() {
 	}
 }
 
-module.exports = { validation, validateUser, restrict, stats }
+const validateForm = async (req, res, next) => {
+	try {
+		if (
+			!req.body ||
+			req.body.url === '' ||
+			req.body.name === '' ||
+			req.body.categoryID === '' ||
+			req.body.userID === '' ||
+			req.body.title === '' ||
+			req.body.firstName === '' ||
+			req.body.lastName === ''
+		) {
+			return res.status(400).json({ message: 'Invalid Inputs.' })
+		}
+		next()
+	} catch (error) {
+		next(error)
+	}
+}
+
+module.exports = { validation, validateUser, restrict, stats, validateForm }
