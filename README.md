@@ -8,8 +8,8 @@
 
 ```
 {
-  firstname: "", // string, required
-  lastname: "", // string, required
+  firstName: "", // string, required
+  lastName: "", // string, required
   username: "", // string, required, must be unique
   password: "", // string, required
 }
