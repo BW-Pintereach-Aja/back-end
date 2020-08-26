@@ -88,7 +88,8 @@ router.post('/new-category', validateForm, async (req, res, next) => {
 		if (exists) {
 			return res.status(409).json({ message: 'Category already exists' })
 		}
-		res.status(201).json(await Articles.addCategory(req.body))
+		await Articles.addCategory(req.body)
+		res.status(201).json({ message: 'New category added' })
 	} catch (error) {
 		next(error)
 	}
