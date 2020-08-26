@@ -62,18 +62,17 @@ router.post('/:userID/user', validateForm, async (req, res, next) => {
 			userID: Number(req.params.userID)
 		}
 		const newArticle = await Articles.addArticle(article)
-		res.status(201).json(newArticle)
-
+		console.log('NEW ARTICLE ', newArticle)
 		const category = await {
 			categoryID: req.body.categoryID,
 			articleID: newArticle[0]
 		}
 
-		console.log(typeof category.categoryID)
-		console.log(typeof category.articleID)
+		console.log(category)
 
 		const posted = await Articles.addToCategory(category)
 
+		console.log('POSTED ', posted)
 		res.status(201).json(posted)
 	} catch (error) {
 		next(error)
