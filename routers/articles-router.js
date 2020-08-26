@@ -64,9 +64,9 @@ router.post('/:userID/user', validateForm, async (req, res, next) => {
 		const newArticle = await Articles.addArticle(article)
 		res.status(201).json(newArticle)
 
-		const category = {
+		const category = await {
 			categoryID: req.body.categoryID,
-			articleID: 26
+			articleID: newArticle[0]
 		}
 
 		console.log(typeof category.categoryID)
