@@ -66,7 +66,7 @@ function getCategories() {
 }
 
 function addArticle(post) {
-	return db('articles').insert(post)
+	return db('articles').insert(post).returning('articles.id')
 }
 
 function addToCategory(category) {
