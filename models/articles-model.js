@@ -70,7 +70,7 @@ function addArticle(post) {
 }
 
 function addToCategory(category) {
-	return db('category_article').insert(category)
+	return db('category_article').insert(category).returning('category_article.categoryID')
 }
 
 function addCategory(category) {
