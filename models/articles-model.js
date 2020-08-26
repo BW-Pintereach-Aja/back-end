@@ -93,7 +93,7 @@ function editCategory(category, id) {
 }
 
 function removeArticle(id) {
-	return db('articles').delete('articles').where('articles.id', id)
+	return db('articles').delete('articles').where('articles.id', id).returning('articles.id')
 }
 
 function removeCategory(id) {
