@@ -66,7 +66,7 @@ router.post('/:userID/user', validateForm, async (req, res, next) => {
 
 		const category = {
 			categoryID: req.body.categoryID,
-			articleID: Number(newArticle[0])
+			articleID: newArticle[0]
 		}
 
 		console.log(typeof category.categoryID)
