@@ -75,7 +75,7 @@ router.post('/:userID/user', validateForm, async (req, res, next) => {
 		const posted = await Articles.addToCategory(category)
 
 		console.log('POSTED ', posted)
-		res.status(201).json(posted)
+		res.status(201).json({ message: 'Your post has been posted.' })
 	} catch (error) {
 		next(error)
 	}
