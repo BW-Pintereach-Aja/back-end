@@ -15,6 +15,7 @@ function getArticles() {
 			'articles.desc as articleDesc',
 			'articles.url'
 		)
+		.orderBy('articles.id')
 }
 
 function getArticleById(id) {
@@ -100,6 +101,18 @@ function removeCategory(id) {
 	return db('categories').delete('categories').where('categories.id', id)
 }
 
+function updateCategory(category, articleID) {
+	return db('category_article')
+		.delete('category_article.categoryID')
+		.where('category_article.articleID', articleID)
+		.then(() => {
+			return db('category_article').insert(category)
+		})
+		.catch((err) => {
+			console.log(err)
+		})
+}
+
 module.exports = {
 	getArticles,
 	getArticleById,
@@ -113,5 +126,6 @@ module.exports = {
 	editArticle,
 	editCategory,
 	removeArticle,
-	removeCategory
+	removeCategory,
+	updateCategory
 }

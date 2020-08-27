@@ -63,18 +63,13 @@ router.post('/:userID/user', validateForm, async (req, res, next) => {
 		}
 		const newArticle = await Articles.addArticle(article)
 
-		console.log('NEW ARTICLE ', newArticle)
-
-		const category = await {
+		const category = {
 			categoryID: req.body.categoryID,
 			articleID: newArticle[0]
 		}
 
-		console.log(category)
+		await Articles.addToCategory(category)
 
-		const posted = await Articles.addToCategory(category)
-
-		console.log('POSTED ', posted)
 		res.status(201).json({ message: 'Your post has been posted.' })
 	} catch (error) {
 		next(error)
@@ -104,9 +99,18 @@ router.put('/:articleID', validateForm, async (req, res, next) => {
 			desc: req.body.desc
 		}
 
-		const edited = await Articles.editArticle(article, req.params.articleID)
-		res.status(201).json({ edited })
+		await Articles.editArticle(article, req.params.articleID)
+
+		const category = {
+			categoryID: req.body.categoryID,
+			articleID: req.params.articleID
+		}
+
+		await Articles.updateCategory(category, Number(req.params.articleID))
+
+		res.status(201).json({ message: 'Article Updated' })
 	} catch (error) {
+		console.dir(error)
 		next(error)
 	}
 })
