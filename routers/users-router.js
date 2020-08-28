@@ -54,7 +54,9 @@ router.post('/register', async (req, res, next) => {
 			password: await bcrypt.hash(password, process.env.NODE_ENV === 'production' ? 10 : 1)
 		})
 
-		res.status(201).json(newUser)
+		res.status(201).json({
+		message: "New user!"	
+		}, newUser)
 	} catch (err) {
 		next(err)
 	}
