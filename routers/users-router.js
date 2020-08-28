@@ -64,11 +64,11 @@ router.post("/register", async (req, res, next) => {
       ),
     });
 
-    res.status(201).json(newUser);
-  } catch (err) {
-    next(err);
-  }
-});
+		res.status(201).json({message: 'New User'})
+	} catch (err) {
+		next(err)
+	}
+})
 
 //login
 router.post("/login", validation, async (req, res, next) => {
