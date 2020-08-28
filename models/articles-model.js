@@ -15,6 +15,7 @@ function getArticles() {
 			'articles.desc as articleDesc',
 			'articles.url'
 		)
+		.orderBy('articles.id')
 }
 
 function getArticleById(id) {
@@ -66,11 +67,11 @@ function getCategories() {
 }
 
 function addArticle(post) {
-	return db('articles').insert(post)
+	return db('articles').insert(post).returning('articles.id')
 }
 
 function addToCategory(category) {
-	return db('category_article').insert(category)
+	return db('category_article').insert(category).returning('category_article.categoryID')
 }
 
 function addCategory(category) {
@@ -93,11 +94,23 @@ function editCategory(category, id) {
 }
 
 function removeArticle(id) {
-	return db('articles').delete('articles').where('articles.id', id)
+	return db('articles').delete('articles').where('articles.id', id).returning('articles.id')
 }
 
 function removeCategory(id) {
 	return db('categories').delete('categories').where('categories.id', id)
+}
+
+function updateCategory(category, articleID) {
+	return db('category_article')
+		.delete('category_article.categoryID')
+		.where('category_article.articleID', articleID)
+		.then(() => {
+			return db('category_article').insert(category)
+		})
+		.catch((err) => {
+			console.log(err)
+		})
 }
 
 module.exports = {
@@ -113,5 +126,6 @@ module.exports = {
 	editArticle,
 	editCategory,
 	removeArticle,
-	removeCategory
+	removeCategory,
+	updateCategory
 }

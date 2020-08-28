@@ -15,7 +15,7 @@ router.get('/categories', async (req, res, next) => {
 // get all articles
 router.get('/', async (req, res, next) => {
 	try {
-		res.status(200).json(await Articles.getArticles())
+		res.json(await Articles.getArticles())
 	} catch (error) {
 		next(error)
 	}
@@ -40,9 +40,12 @@ router.get('/:userID/user', async (req, res, next) => {
 })
 
 // get all articles from a category
-router.get('/:categoryID/category', async (req, res, next) => {
+router.get('/:id/category', async (req, res, next) => {
 	try {
-		const found = await Articles.getByCategory(req.params.categoryID)
+		const found = await Articles.getByCategory(req.params.id)
+		if (found.length === 0) {
+			return res.status(404).json({ message: 'Category by that ID does not exist.' })
+		}
 		res.status(200).json(found)
 	} catch (error) {
 		next(error)
@@ -59,16 +62,15 @@ router.post('/:userID/user', validateForm, async (req, res, next) => {
 			userID: Number(req.params.userID)
 		}
 		const newArticle = await Articles.addArticle(article)
-		// res.status(201).json(newArticle)
 
 		const category = {
-			categoryID: Number(req.body.categoryID),
-			articleID: Number(newArticle[0])
+			categoryID: req.body.categoryID,
+			articleID: newArticle[0]
 		}
 
-		const posted = await Articles.addToCategory(category)
+		await Articles.addToCategory(category)
 
-		res.status(201).json(posted)
+		res.status(201).json({ message: 'Your post has been posted.' })
 	} catch (error) {
 		next(error)
 	}
@@ -81,7 +83,8 @@ router.post('/new-category', validateForm, async (req, res, next) => {
 		if (exists) {
 			return res.status(409).json({ message: 'Category already exists' })
 		}
-		res.status(201).json(await Articles.addCategory(req.body))
+		await Articles.addCategory(req.body)
+		res.status(201).json({ message: 'New category added' })
 	} catch (error) {
 		next(error)
 	}
@@ -96,9 +99,18 @@ router.put('/:articleID', validateForm, async (req, res, next) => {
 			desc: req.body.desc
 		}
 
-		const edited = await Articles.editArticle(article, req.params.articleID)
-		res.status(201).json({ edited })
+		await Articles.editArticle(article, req.params.articleID)
+
+		const category = {
+			categoryID: req.body.categoryID,
+			articleID: req.params.articleID
+		}
+
+		await Articles.updateCategory(category, Number(req.params.articleID))
+
+		res.status(201).json({ message: 'Article Updated' })
 	} catch (error) {
+		console.dir(error)
 		next(error)
 	}
 })
@@ -118,7 +130,9 @@ router.delete('/:id/remove-article', async (req, res, next) => {
 	try {
 		const found = await Articles.getArticleById(req.params.id)
 		if (found.length === 0) {
-			return res.status(404).json({ message: 'Article by that ID does not exist. Request terminated.' })
+			return res.status(404).json({
+				message: 'Article by that ID does not exist. Request terminated.'
+			})
 		}
 		res.status(200).json(await Articles.removeArticle(req.params.id))
 	} catch (error) {
